@@ -1,182 +1,94 @@
 import random
 import csv
-class Scorecard:
-    ones_score = -1
-    twos_score = -1
-    threes_score = -1
-    fours_score = -1
-    fives_score = -1
-    sixes_score = -1
-    yahtzee_score = -1
-    full_house_score = -1
-    three_kind_score = -1
-    four_kind_score = -1
-    total = 0
-    def __init__(self):
-        pass
-    def add_score(self, category, dice_set, dice_count):
-        count = -1
-        if category == "ones":
-            count = 0
-            if self.ones_score < 0:
-                self.ones_score = 0
-                for d in dice_set:
-                    if d.value == 1:
-                        print("found a one")
-                        self.ones_score += 1
-                        self.total += 1
-                # self.ones_score += dice_set.count(1)
-            else:
-              print("invalid - you used ones already")
-        if category == "twos":
-            count = 0
-            if self.twos_score < 0:
-                self.twos_score = 0
+from die import Die
+from scorecard import Scorecard
 
-                for d in dice_set:
-                    if d.value == 2:
-                        print("found a two")
-                        self.twos_score += 2
-                        self.total += 2
-            else:
-                print("invalid - you used twos already") 
-        if category == "threes":
-            count = 0
-            if self.threes_score < 0:
-                self.threes_score = 0
 
-                for d in dice_set:
-                    if d.value == 3:
-                        print("found a three")
-                        self.threes_score += 3
-                        self.total += 3
-            else:
-                print("invalid - you used threes already")
-        if category == "fours":
-            count = 0
-            if self.fours_score < 0:
-                self.fours_score = 0
+human = False
 
-                for d in dice_set:
-                    if d.value == 4:
-                        
-                        print("found a four")
-                        self.fours_score += 4
-                        self.total += 4
-            else:
-                print("invalid - you used fours already")
-        if category == "fives":
-            count = 0
-            if self.fives_score < 0:
-                self.fives_score = 0
-                for d in dice_set:
-                    if d.value == 5:
-                        self.fives_score += 5
-                        self.total += 5
-            else:
-                print("invalid - you used fives already")
-        if category == "sixes":
-            count = 0
-            if self.sixes_score < 0:
-                self.sixes_score = 0
 
-                for d in dice_set:
-                    if d.value == 6:
-                        print("found a six")
-                        self.sixes_score += 6
-                        self.total += 1
-            else:
-                print("invalid - you used sixes already")
-        if category == "yahtzee":
-            if self.yahtzee_score < 0:
-                count = 0
-                self.yahtzee_score = 0
-                if 1 in dice_set:
-                    print("H")
-                    if 1 in dice_count == 5:
-                        self.yahtzee_score += 50
-                        self.total += 50
-                elif 2 in dice_set:
-                    print("H")
-                    if 2 in dice_count == 5:
-                        self.yahtzee_score += 50
-                        self.total += 50
-                elif 3 in dice_set:
-                    print("H")
-                    if 3 in dice_count == 5:
-                        self.yahtzee_score += 50
-                        self.total += 50
-                elif 4 in dice_set:
-                    print("H")
-                    if 4 in dice_count == 5:
-                        self.yahtzee_score += 50
-                        self.total += 50
-                elif 5 in dice_set:
-                    print("H")
-                    if 5 in dice_count == 5:
-                        self.yahtzee_score += 50
-                        self.total += 50
-                elif 6 in dice_set:
-                    print("H")
-                    if 6 in dice_count == 5:
-                        self.yahtzee_score += 50
-                        self.total += 50
-        if category == "full house":
-            if self.full_house_score < 0:
-                count = 0
-                self.full_house_score = 0
-                if 2 in dice_count:
-                    if 3 in dice_count:
-                        self.full_house_score += 25
-                        self.total += 25
+def tally_scoring(scorecard, dice_set, dice_count):
+    print()
 
-        if category == "three of a kind":
-            if self.three_kind_score < 0:
-                count = 0
-                self.three_kind_score = 0
-                if 3 in dice_count:
-                    for d in dice_set:
-                        x = d.value
-                        self.three_kind_score += x
-                        self.total += x
-        if category == "four of a kind":
-            if self.four_kind_score < 0:
-                count = 0
-                self.four_kind_score = 0
-                if 4 in dice_count:
-                    for d in dice_set:
-                        x = d.value
-                        self.four_kind_score += x
-                        self.total += x
-
-        else:
-            print("Invalid slot")
-        return count
-class Die:
-    value = 0
-    def __init__(self):
-        pass
-
-    def roll(self):
-       self.value = random.randint(1,6)
-def print_scorecard(scorecard):
-    x = [scorecard.ones_score,scorecard.twos_score,scorecard.threes_score,scorecard.fours_score,scorecard.fives_score,scorecard.sixes_score, scorecard.yahtzee_score, scorecard.full_house_score,scorecard.three_kind_score,scorecard.four_kind_score]
-    print(x)
-    return x
 set0 = []
 scorecard = Scorecard()
 count = 0
-def show_score(scorecard):
-    print(f"Ones Score: {scorecard.ones_score}\nTwos Score: {scorecard.twos_score}\nThrees Score: {scorecard.threes_score}\nFours Score: {scorecard.fours_score}\nFives Score: {scorecard.fives_score}\nSixes Score: {scorecard.sixes_score}\nYahtzee: {scorecard.yahtzee_score}\nFull House: {scorecard.full_house_score}\nThree of a Kind: {scorecard.three_kind_score}\nFour of a Kind: {scorecard.four_kind_score}\nTotal: {scorecard.total}")
 def count_values(dice_set, v):
     result = 0
     for d in dice_set:
         if d.value == v:
             result += 1
     return result
+
+def find_best_category(set, set0, set1):
+    max_value = -1
+    best_category = "invalid"
+    for i in range(0, 9):
+        if i == 0:
+            category = "ones"
+            value = scorecard.add_score(category, set, set1, False)
+            if (value > max_value):
+                max_value = value
+                best_category = "ones"
+        if i == 1:
+            category = "twos"
+            value = scorecard.add_score(category, set, set1, False)
+            if (value > max_value):
+                max_value = value
+                best_category = "twos"
+        if i == 2:
+            category = "threes"
+            value = scorecard.add_score(category, set, set1, False)
+            if value > max_value:
+                max_value = value
+                best_category = "threes"
+        if i == 3:
+            category = "fours"
+            value = scorecard.add_score(category, set, set1, False)
+            if value > max_value:
+                max_value = value
+                best_category = "fours"
+        if i == 4:
+            category = "fives"
+            value = scorecard.add_score(category, set, set1, False)
+            if value > max_value:
+                max_value = value
+                best_category = "fives"
+        if i == 5:
+            category = "sixes"
+            value = scorecard.add_score(category, set, set1, False)
+            if value > max_value:
+                max_value = value
+                best_category = "sixes"
+        if i == 6:
+            category = "yahtzee"
+            value = scorecard.add_score(category, set, set1, False)
+            print("yahtzee value")
+            print(value)
+            if value > max_value:
+                max_value = value
+                best_category = "yahtzee"
+        if i == 7:
+            category = "full house"
+            value = scorecard.add_score(category, set, set1, False)
+            if value > max_value:
+                max_value = value
+                best_category = "full house"
+        if i == 8:
+            category = "three of a kind"
+            value = scorecard.add_score(category, set, set1, False)
+            if value > max_value:
+                max_value = value
+                best_category = "three of a kind"
+        if i == 9:
+            category = "four of a kind"
+            value = scorecard.add_score(category, set, set1, False)
+            if value > max_value:
+                max_value = value
+                best_category = "four of a kind"
+    return best_category
 def count_dice(set0):
     set_count = []
-    print(set0)
     set_count.append(count_values(set0,1))
     set_count.append(count_values(set0,2))
     set_count.append(count_values(set0,3))
@@ -188,43 +100,67 @@ def count_dice(set0):
 
 
 def print_set(set0):
-    print(f"Dice 1: {set0[0].value}\n Dice 2: {set0[1].value}\n Dice 3: {set0[2].value}\n Dice 4: {set0[3].value}\n Dice 5: {set0[4].value}\n")
+    print(f" Dice 1: {set0[0].value}\n Dice 2: {set0[1].value}\n Dice 3: {set0[2].value}\n Dice 4: {set0[3].value}\n Dice 5: {set0[4].value}\n")
+
+def first_reroll(dice_set, human):
+    if human == True:
+        print_set(dice_set)
+        reroll = input("Which dice would you like to reroll")
+        x = reroll.split()
+        return x
+    else:
+        reroll = []
+        return reroll
+    
+def second_reroll(dice_set, human):
+    if human == True:
+        print_set(set0)
+        reroll = input("Which dice would you like to reroll")
+        x = reroll.split()
+    else:
+        reroll = []
+        return reroll
+        
+
+# roll 5 dice
 for i in range(0,5):
     dice = Die()
-    dice.roll()
     set0.append(dice)
-for i in range (0, 10):  
-    reroll = "1 2 3 4 5"
-    x = reroll.split()
+
+# play 10 rounds
+for i in range (0, 10):
+
+    # roll all 5 dice
+    for d in set0:  
+        d.roll()
+
+    # Make the first reroll decision
+    x = first_reroll(set0, human)
     for i in x:  
         set0[int(i)-1].roll()
 
     print_set(set0)
-    reroll = input("Which dice would you like to reroll")
-    x = reroll.split()
+    
+    # Make the second reroll decision
+    x = second_reroll(set0, human)
     for i in x:  
         set0[int(i)-1].roll()
-    print_set(set0)
-    
-    
 
-    reroll = input("Which dice would you like to reroll")
-    x = reroll.split()
-    for i in x:  
-        set0[int(i)-1].roll()
-    print_set(set0)
+
+    # Create a set of counts
     set_count = count_dice(set0)
+    scorecard.show_score()
 
-
-
-
-    show_score(scorecard)
-    scoring = input(f"Where would you like to score this?")
+    # Make the scoring decision
     f = -1
+    print()
+    print_set(set0)
     while f < 0:
-        f = scorecard.add_score(scoring, set0, set_count)
-    show_score(scorecard)
-x = print_scorecard(scorecard)
+        scoring = find_best_category(set0, set_count, scorecard)
+        f = scorecard.add_score(scoring, set0, set_count, True)
+    scorecard.show_score()
+# Save result to file
+x = scorecard.print_scorecard()
 with open('output.csv', mode='a', newline='') as file:
     writer = csv.writer(file)
     if file.tell() == 0:
