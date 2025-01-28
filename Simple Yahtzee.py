@@ -23,7 +23,7 @@ def count_values(dice_set, v):
 def find_best_category(set, set0, set1):
     max_value = -1
     best_category = "invalid"
-    for i in range(0, 9):
+    for i in range(0, 10):
         if i == 0:
             category = "ones"
             value = scorecard.add_score(category, set, set1, False)
@@ -114,13 +114,23 @@ def first_reroll(dice_set, human):
     
 def second_reroll(dice_set, human):
     if human == True:
-        print_set(set0)
+        print_set(dice_set)
         reroll = input("Which dice would you like to reroll")
         x = reroll.split()
+        return x
     else:
         reroll = []
         return reroll
         
+def pick_category(set0, set_count, scorecard, human):
+    f = -1
+    while f < 0:
+        if human == True:
+            scoring = input("Where would you like to score this? ")
+        else:
+            scoring = find_best_category(set0, scorecard, set_count)
+        f = scorecard.add_score(scoring, set0, set_count, True)
+        ## print(f"Category {scoring} Score {f}")
 
 # roll 5 dice
 for i in range(0,5):
@@ -139,7 +149,7 @@ for i in range (0, 10):
     for i in x:  
         set0[int(i)-1].roll()
 
-    print_set(set0)
+    # print_set(set0)
     
     # Make the second reroll decision
     x = second_reroll(set0, human)
@@ -152,16 +162,17 @@ for i in range (0, 10):
     scorecard.show_score()
 
     # Make the scoring decision
-    f = -1
-    print()
-    print_set(set0)
-    while f < 0:
-        scoring = find_best_category(set0, set_count, scorecard)
-        f = scorecard.add_score(scoring, set0, set_count, True)
-    scorecard.show_score()
+    pick_category(set0, set_count, scorecard, human)
+
+    if human == True:
+        scorecard.show_score()
+        filename = "human_scores.csv"
+    else:
+        filename = "computer_scores.csv"
+
 # Save result to file
 x = scorecard.print_scorecard()
-with open('output.csv', mode='a', newline='') as file:
+with open(filename, mode='a', newline='') as file:
     writer = csv.writer(file)
     if file.tell() == 0:
         writer.writerow(['ones','twos','threes','fours','fives','sixes','yahtzee','full house','three of a kind','four of a kind'])
