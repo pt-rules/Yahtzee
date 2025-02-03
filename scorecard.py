@@ -119,7 +119,7 @@ class Scorecard:
         if category == "three of a kind":
             if self.three_kind_score < 0:
                 count = 0
-                if 3 in dice_count:
+                if 3 in dice_count or 4 in dice_count or 5 in dice_count:
                     for d in dice_set:
                         count += d.value              
                 if should_update == True:
@@ -130,7 +130,7 @@ class Scorecard:
         if category == "four of a kind":
             if self.four_kind_score < 0:
                 count = 0
-                if 4 in dice_count:
+                if 4 in dice_count or 5 in dice_count:
                     for d in dice_set:
                         count += d.value         
                 if should_update == True:

@@ -4,15 +4,13 @@ from die import Die
 from scorecard import Scorecard
 
 
-human = False
+human = True
 
 
 def tally_scoring(scorecard, dice_set, dice_count):
     print()
 
-set0 = []
-scorecard = Scorecard()
-count = 0
+
 def count_values(dice_set, v):
     result = 0
     for d in dice_set:
@@ -105,9 +103,16 @@ def print_set(set0):
 def first_reroll(dice_set, human):
     if human == True:
         print_set(dice_set)
-        reroll = input("Which dice would you like to reroll")
-        x = reroll.split()
-        return x
+        f = -1
+        while f < 0:
+            f = 0
+            reroll = input("Which dice would you like to reroll")
+            dice_list = reroll.split()
+            #  print(dice_list)
+            for d in dice_list:
+                if not (d in ['1','2','3','4','5']):
+                    f = -1
+        return dice_list
     else:
         reroll = []
         return reroll
@@ -115,9 +120,15 @@ def first_reroll(dice_set, human):
 def second_reroll(dice_set, human):
     if human == True:
         print_set(dice_set)
-        reroll = input("Which dice would you like to reroll")
-        x = reroll.split()
-        return x
+        f = -1
+        while f < 0:
+            f = 0
+            reroll = input("Which dice would you like to reroll")
+            dice_list = reroll.split()
+            for d in dice_list:
+                if not (d in ['1','2','3','4','5']):
+                    f = -1
+        return dice_list
     else:
         reroll = []
         return reroll
@@ -133,47 +144,51 @@ def pick_category(set0, set_count, scorecard, human):
         ## print(f"Category {scoring} Score {f}")
 
 # roll 5 dice
-for i in range(0,5):
-    dice = Die()
-    set0.append(dice)
 
-# play 10 rounds
-for i in range (0, 10):
+for i in range (0, 25):
+    set0 = []
+    scorecard = Scorecard()
+    count = 0
+    for i in range(0,5):
+        dice = Die()
+        set0.append(dice)
+    # play 10 rounds
+    for i in range (0, 10):
 
-    # roll all 5 dice
-    for d in set0:  
-        d.roll()
+        # roll all 5 dice
+        for d in set0:  
+            d.roll()
 
-    # Make the first reroll decision
-    x = first_reroll(set0, human)
-    for i in x:  
-        set0[int(i)-1].roll()
+        # Make the first reroll decision
+        x = first_reroll(set0, human)
+        for i in x:
+            set0[int(i)-1].roll()
 
-    # print_set(set0)
-    
-    # Make the second reroll decision
-    x = second_reroll(set0, human)
-    for i in x:  
-        set0[int(i)-1].roll()
+        # print_set(set0)
+        
+        # Make the second reroll decision
+        x = second_reroll(set0, human)
+        for i in x:  
+            set0[int(i)-1].roll()
 
 
-    # Create a set of counts
-    set_count = count_dice(set0)
-    scorecard.show_score()
-
-    # Make the scoring decision
-    pick_category(set0, set_count, scorecard, human)
-
-    if human == True:
+        # Create a set of counts
+        set_count = count_dice(set0)
         scorecard.show_score()
-        filename = "human_scores.csv"
-    else:
-        filename = "computer_scores.csv"
 
-# Save result to file
-x = scorecard.print_scorecard()
-with open(filename, mode='a', newline='') as file:
-    writer = csv.writer(file)
-    if file.tell() == 0:
-        writer.writerow(['ones','twos','threes','fours','fives','sixes','yahtzee','full house','three of a kind','four of a kind'])
-    writer.writerow(x)    
+        # Make the scoring decision
+        pick_category(set0, set_count, scorecard, human)
+
+        if human == True:
+            scorecard.show_score()
+            filename = "human_scores.csv"
+        else:
+            filename = "computer_scores.csv"
+
+    # Save result to file
+    x = scorecard.print_scorecard()
+    with open(filename, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        if file.tell() == 0:
+            writer.writerow(['ones','twos','threes','fours','fives','sixes','yahtzee','full house','three of a kind','four of a kind'])
+        writer.writerow(x)    
